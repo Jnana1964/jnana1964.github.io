@@ -267,6 +267,26 @@ footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
   .fade{opacity:1;transform:none;transition:none}
   .cap,.proj,.btn{transition:none}
 }
+
+/* CREDENTIALS GRID */
+.creds{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:14px;margin-top:20px}
+.cred{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:border-color .25s ease,transform .25s ease}
+.cred:hover{border-color:var(--acc);transform:translateY(-3px)}
+.cred .shot{display:block;line-height:0;background:var(--ink);border-bottom:1px solid var(--line)}
+.cred img{width:100%;height:142px;object-fit:cover;object-position:top center;display:block}
+.cred .meta{padding:13px 14px 15px}
+.cred h4{margin:0 0 4px;font-size:13.5px;line-height:1.35;font-weight:600;color:var(--text)}
+.cred .issuer{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--muted)}
+.cred .verify{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--acc-l);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:2px}
+.cred .verify:hover{color:var(--text)}
+.cred.primary{grid-column:span 2}
+.cred.primary img{height:196px}
+@media (max-width:760px){
+  .creds{grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:11px}
+  .cred img{height:104px}
+  .cred.primary{grid-column:1/-1}
+  .cred.primary img{height:168px}
+}
 </style>
 </head>
 <body>
@@ -352,7 +372,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
     <div class="row"><small class="mono">2026 · Presented</small><div><h3>ICSIE 2026</h3><p>“EcoResonanceAI: A Real-Time Environmental Risk Monitoring System Using Multi-Source Data”, 17th International Conference on Science &amp; Innovative Engineering, with Manipal University College, Malaysia. Author and presenter.</p></div></div>
     <div class="row"><small class="mono">2026 · Reviewer</small><div><h3>SASIGD 2026</h3><p>Invited reviewer. Reviewed conference paper submissions for technical quality and integrity.</p></div></div>
     <div class="row"><small class="mono">2025 · Accepted</small><div><h3>ICRCET 2025</h3><p>“Recommendation System for Netflix”, accepted in April 2025.</p></div></div>
-    <div class="row"><small class="mono">Credentials</small><div><h3>Oracle Cloud Infrastructure Architect Associate</h3><p>Also completed AWS Data Engineering on AWS: Foundations (2025) and Google AI Essentials (2026).</p></div></div>
+    <div class="row"><small class="mono">Credentials</small><div><h3>Certifications &amp; conference record</h3><p>Click any certificate to open the full image. Where the issuer offers public verification, the link goes straight to their records.</p><div class="creds"><figure class="cred primary"><a class="shot" href="certs/icsie-2026.jpg" target="_blank" rel="noopener"><img src="certs/icsie-2026.jpg" alt="ICSIE 2026 certificate of presentation" loading="lazy"></a><figcaption class="meta"><h4>ICSIE 2026 — Certificate of Presentation</h4><p class="issuer">17th Intl. Conf. on Science &amp; Innovative Engineering · 2026</p></figcaption></figure><figure class="cred"><a class="shot" href="certs/oracle-oci.jpg" target="_blank" rel="noopener"><img src="certs/oracle-oci.jpg" alt="Oracle Cloud Infrastructure Architect Associate certificate" loading="lazy"></a><figcaption class="meta"><h4>OCI Certified Architect Associate</h4><p class="issuer">Oracle · Aug 2026</p><a class="verify" href="REPLACE_WITH_ORACLE_VERIFY_URL" target="_blank" rel="noopener">Verify</a></figcaption></figure><figure class="cred"><a class="shot" href="certs/aws-data-eng.jpg" target="_blank" rel="noopener"><img src="certs/aws-data-eng.jpg" alt="AWS Data Engineering Foundations certificate" loading="lazy"></a><figcaption class="meta"><h4>Data Engineering on AWS: Foundations</h4><p class="issuer">AWS Training &amp; Certification · Aug 2025</p><a class="verify" href="REPLACE_WITH_AWS_VERIFY_URL" target="_blank" rel="noopener">Verify</a></figcaption></figure><figure class="cred"><a class="shot" href="certs/anthropic-claude.jpg" target="_blank" rel="noopener"><img src="certs/anthropic-claude.jpg" alt="Claude with the Anthropic API certificate" loading="lazy"></a><figcaption class="meta"><h4>Claude with the Anthropic API</h4><p class="issuer">Anthropic · Certificate of completion</p></figcaption></figure><figure class="cred"><a class="shot" href="certs/google-ai-essentials.jpg" target="_blank" rel="noopener"><img src="certs/google-ai-essentials.jpg" alt="Google AI Essentials certificate" loading="lazy"></a><figcaption class="meta"><h4>Google AI Essentials</h4><p class="issuer">Google · Coursera · Jul 2026</p><a class="verify" href="REPLACE_WITH_COURSERA_VERIFY_URL" target="_blank" rel="noopener">Verify</a></figcaption></figure><figure class="cred"><a class="shot" href="certs/nptel-ml.jpg" target="_blank" rel="noopener"><img src="certs/nptel-ml.jpg" alt="NPTEL Machine Learning certificate" loading="lazy"></a><figcaption class="meta"><h4>Machine Learning</h4><p class="issuer">NPTEL</p></figcaption></figure><figure class="cred"><a class="shot" href="certs/nptel-nlp.jpg" target="_blank" rel="noopener"><img src="certs/nptel-nlp.jpg" alt="NPTEL Natural Language Processing certificate" loading="lazy"></a><figcaption class="meta"><h4>Natural Language Processing</h4><p class="issuer">NPTEL</p></figcaption></figure><figure class="cred"><a class="shot" href="certs/tata-forage.jpg" target="_blank" rel="noopener"><img src="certs/tata-forage.jpg" alt="Tata Data Visualisation virtual experience certificate" loading="lazy"></a><figcaption class="meta"><h4>Data Visualisation — Virtual Experience</h4><p class="issuer">Tata via Forage · 2025</p></figcaption></figure></div></div></div>
   </div>
 </div></section>
 
