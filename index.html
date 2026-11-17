@@ -268,24 +268,145 @@ footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
   .cap,.proj,.btn{transition:none}
 }
 
-/* CREDENTIALS GRID */
-.creds{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:14px;margin-top:20px}
-.cred{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:border-color .25s ease,transform .25s ease}
-.cred:hover{border-color:var(--acc);transform:translateY(-3px)}
-.cred .shot{display:block;line-height:0;background:var(--ink);border-bottom:1px solid var(--line)}
-.cred img{width:100%;height:142px;object-fit:cover;object-position:top center;display:block}
-.cred .meta{padding:13px 14px 15px}
-.cred h4{margin:0 0 4px;font-size:13.5px;line-height:1.35;font-weight:600;color:var(--text)}
-.cred .issuer{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--muted)}
-.cred .verify{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--acc-l);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:2px}
-.cred .verify:hover{color:var(--text)}
-.cred.primary{grid-column:span 2}
-.cred.primary img{height:196px}
-@media (max-width:760px){
-  .creds{grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:11px}
-  .cred img{height:104px}
-  .cred.primary{grid-column:1/-1}
-  .cred.primary img{height:168px}
+/* ============ CERTIFICATE SNAKE TIMELINE ============
+   One dotted curve runs top to bottom; cards sit alternately on its
+   left and right. The spine is a fixed 240x2310 viewBox squeezed
+   horizontally per breakpoint (preserveAspectRatio="none"), so the
+   swing narrows while the node rows stay at y = 165 + i*330.
+   Node offset from centre = 86/240 * rendered spine width.          */
+.certHead{margin-top:92px}
+.snake{position:relative;max-width:980px;margin:34px auto 0;padding:0}
+.snake .spine{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:240px;height:2310px;overflow:visible;pointer-events:none;z-index:0
+}
+.snake .spine path{
+  fill:none;stroke:url(#snakeGrad);stroke-width:3.4;
+  stroke-linecap:round;stroke-dasharray:0.1 13;
+  vector-effect:non-scaling-stroke
+}
+.snode{position:relative;height:330px}
+.snode .dot{
+  position:absolute;top:165px;width:17px;height:17px;margin:-8.5px 0 0 -8.5px;
+  border-radius:50%;background:var(--acc);
+  border:3px solid var(--black);
+  box-shadow:0 0 0 4px rgba(194,18,58,.20),0 0 18px rgba(194,18,58,.55);
+  z-index:3
+}
+.snode .stub{
+  position:absolute;top:165px;height:0;width:30px;
+  border-top:1px dotted rgba(194,18,58,.75);
+  z-index:1
+}
+.snode.left  .dot {left:calc(50% - 86px)}
+.snode.right .dot {left:calc(50% + 86px)}
+.snode.left  .stub{right:calc(50% + 86px)}
+.snode.right .stub{left:calc(50% + 86px)}
+
+.cert{
+  position:absolute;top:165px;transform:translateY(-50%);
+  margin:0;width:322px;background:var(--card);
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  transition:border-color .25s ease,transform .25s ease,box-shadow .25s ease;
+  z-index:2
+}
+.snode.left  .cert{right:calc(50% + 116px)}
+.snode.right .cert{left:calc(50% + 116px)}
+.cert:hover{border-color:var(--acc);transform:translateY(-50%) scale(1.022);box-shadow:0 16px 40px rgba(0,0,0,.55)}
+.cert .shot{display:block;line-height:0;background:#07070a;border-bottom:1px solid var(--line)}
+.cert .shot img{width:100%;height:150px;object-fit:contain;display:block}
+.cert .body{padding:13px 15px 14px}
+.cert h4{margin:0 0 4px;font-size:14.5px;line-height:1.35;font-weight:600;color:var(--text)}
+.cert .issuer{margin:0;font-size:12.5px;color:var(--muted);line-height:1.45}
+.cert .when{
+  margin-top:11px;padding-top:10px;border-top:1px dotted var(--line);
+  font-family:var(--mono);font-size:12px;letter-spacing:.10em;
+  text-transform:uppercase;color:var(--acc-l);display:block
+}
+.cert .verify{
+  display:inline-block;margin-top:9px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.10em;text-transform:uppercase;color:var(--muted);
+  text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px
+}
+.cert .verify:hover{color:var(--acc-l)}
+
+/* mid: narrower swing, still alternating left/right */
+@media (max-width:1040px){
+  .snake .spine{width:180px}
+  .snode.left  .dot {left:calc(50% - 64.5px)}
+  .snode.right .dot {left:calc(50% + 64.5px)}
+  .snode.left  .stub{right:calc(50% + 64.5px)}
+  .snode.right .stub{left:calc(50% + 64.5px)}
+  .cert{width:268px}
+  .snode.left  .cert{right:calc(50% + 90.5px)}
+  .snode.right .cert{left:calc(50% + 90.5px)}
+}
+/* tight: keeps alternating in a narrow editor preview pane */
+@media (max-width:820px){
+  .snake .spine{width:120px}
+  .snode .stub{width:18px}
+  .snode.left  .dot {left:calc(50% - 43px)}
+  .snode.right .dot {left:calc(50% + 43px)}
+  .snode.left  .stub{right:calc(50% + 43px)}
+  .snode.right .stub{left:calc(50% + 43px)}
+  .cert{width:215px}
+  .snode.left  .cert{right:calc(50% + 61px)}
+  .snode.right .cert{left:calc(50% + 61px)}
+  .cert .shot img{height:122px}
+  .cert h4{font-size:13.5px}
+  .cert .issuer{font-size:11.5px}
+}
+/* narrow pane (editor preview, small tablet): keep alternating, tighter swing */
+@media (max-width:620px){
+  .snake .spine{width:80px}
+  .snode .stub{width:10px}
+  .snode.left  .dot {left:calc(50% - 28.7px)}
+  .snode.right .dot {left:calc(50% + 28.7px)}
+  .snode.left  .stub{right:calc(50% + 28.7px)}
+  .snode.right .stub{left:calc(50% + 28.7px)}
+  .cert{width:165px}
+  .snode.left  .cert{right:calc(50% + 38.7px)}
+  .snode.right .cert{left:calc(50% + 38.7px)}
+  .cert .shot img{height:94px}
+  .cert .body{padding:10px 11px 11px}
+  .cert h4{font-size:12.5px;line-height:1.3}
+  .cert .issuer{font-size:10.5px;line-height:1.4}
+  .cert .when{margin-top:8px;padding-top:7px;font-size:10px;letter-spacing:.06em}
+  .cert .verify{font-size:9.5px;margin-top:7px}
+}
+/* phone: alternation would leave ~150px per card, so the snake narrows
+   into a wiggle at the left and cards stack to its right. Dots are in px
+   from .snode's own left edge, which is flush with .snake (no padding --
+   padding would move that edge away from the spine's and throw them off). */
+@media (max-width:460px){
+  .snake{max-width:none;padding-left:0}
+  .snake .spine{left:16px;transform:none;width:40px;height:2310px}
+  .snode{height:330px}
+  .snode .dot,.snode.left .dot,.snode.right .dot{left:auto}
+  .snode.left  .dot {left:21.7px}
+  .snode.right .dot {left:50.3px}
+  .snode .stub,.snode.left .stub,.snode.right .stub{
+    right:calc(100% - 66px);width:auto
+  }
+  .snode.left  .stub{left:21.7px}
+  .snode.right .stub{left:50.3px}
+  .cert,.snode.left .cert,.snode.right .cert{
+    left:66px;right:0;width:auto;max-width:none
+  }
+  .cert .shot img{height:140px}
+  .cert .body{padding:13px 15px 14px}
+  .cert h4{font-size:14.5px;line-height:1.35}
+  .cert .issuer{font-size:12.5px;line-height:1.45}
+  .cert .when{margin-top:11px;padding-top:10px;font-size:12px;letter-spacing:.10em}
+  .cert .verify{font-size:11px;margin-top:9px}
+}
+@media (max-width:420px){
+  .cert .shot img{height:118px}
+  .cert h4{font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){
+  .cert{transition:none}
+  .cert:hover{transform:translateY(-50%)}
 }
 </style>
 </head>
@@ -372,7 +493,130 @@ footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
     <div class="row"><small class="mono">2026 · Presented</small><div><h3>ICSIE 2026</h3><p>“EcoResonanceAI: A Real-Time Environmental Risk Monitoring System Using Multi-Source Data”, 17th International Conference on Science &amp; Innovative Engineering, with Manipal University College, Malaysia. Author and presenter.</p></div></div>
     <div class="row"><small class="mono">2026 · Reviewer</small><div><h3>SASIGD 2026</h3><p>Invited reviewer. Reviewed conference paper submissions for technical quality and integrity.</p></div></div>
     <div class="row"><small class="mono">2025 · Accepted</small><div><h3>ICRCET 2025</h3><p>“Recommendation System for Netflix”, accepted in April 2025.</p></div></div>
-    <div class="row"><small class="mono">Credentials</small><div><h3>Certifications &amp; conference record</h3><p>Click any certificate to open the full image. Where the issuer offers public verification, the link goes straight to their records.</p><div class="creds"><figure class="cred primary"><a class="shot" href="certs/icsie-2026.jpg" target="_blank" rel="noopener"><img src="certs/icsie-2026.jpg" alt="ICSIE 2026 certificate of presentation" loading="lazy"></a><figcaption class="meta"><h4>ICSIE 2026 — Certificate of Presentation</h4><p class="issuer">17th Intl. Conf. on Science &amp; Innovative Engineering · 2026</p></figcaption></figure><figure class="cred"><a class="shot" href="certs/oracle-oci.jpg" target="_blank" rel="noopener"><img src="certs/oracle-oci.jpg" alt="Oracle Cloud Infrastructure Architect Associate certificate" loading="lazy"></a><figcaption class="meta"><h4>OCI Certified Architect Associate</h4><p class="issuer">Oracle · Aug 2026</p><a class="verify" href="REPLACE_WITH_ORACLE_VERIFY_URL" target="_blank" rel="noopener">Verify</a></figcaption></figure><figure class="cred"><a class="shot" href="certs/aws-data-eng.jpg" target="_blank" rel="noopener"><img src="certs/aws-data-eng.jpg" alt="AWS Data Engineering Foundations certificate" loading="lazy"></a><figcaption class="meta"><h4>Data Engineering on AWS: Foundations</h4><p class="issuer">AWS Training &amp; Certification · Aug 2025</p><a class="verify" href="REPLACE_WITH_AWS_VERIFY_URL" target="_blank" rel="noopener">Verify</a></figcaption></figure><figure class="cred"><a class="shot" href="certs/anthropic-claude.jpg" target="_blank" rel="noopener"><img src="certs/anthropic-claude.jpg" alt="Claude with the Anthropic API certificate" loading="lazy"></a><figcaption class="meta"><h4>Claude with the Anthropic API</h4><p class="issuer">Anthropic · Certificate of completion</p></figcaption></figure><figure class="cred"><a class="shot" href="certs/google-ai-essentials.jpg" target="_blank" rel="noopener"><img src="certs/google-ai-essentials.jpg" alt="Google AI Essentials certificate" loading="lazy"></a><figcaption class="meta"><h4>Google AI Essentials</h4><p class="issuer">Google · Coursera · Jul 2026</p><a class="verify" href="REPLACE_WITH_COURSERA_VERIFY_URL" target="_blank" rel="noopener">Verify</a></figcaption></figure><figure class="cred"><a class="shot" href="certs/nptel-ml.jpg" target="_blank" rel="noopener"><img src="certs/nptel-ml.jpg" alt="NPTEL Machine Learning certificate" loading="lazy"></a><figcaption class="meta"><h4>Machine Learning</h4><p class="issuer">NPTEL</p></figcaption></figure><figure class="cred"><a class="shot" href="certs/nptel-nlp.jpg" target="_blank" rel="noopener"><img src="certs/nptel-nlp.jpg" alt="NPTEL Natural Language Processing certificate" loading="lazy"></a><figcaption class="meta"><h4>Natural Language Processing</h4><p class="issuer">NPTEL</p></figcaption></figure><figure class="cred"><a class="shot" href="certs/tata-forage.jpg" target="_blank" rel="noopener"><img src="certs/tata-forage.jpg" alt="Tata Data Visualisation virtual experience certificate" loading="lazy"></a><figcaption class="meta"><h4>Data Visualisation — Virtual Experience</h4><p class="issuer">Tata via Forage · 2025</p></figcaption></figure></div></div></div>
+  </div>
+
+  <p class="label mono certHead">Certifications</p>
+  <h2 class="fade">Every certificate I’ve <em>earned</em>.</h2>
+
+  <div class="snake fade">
+
+    <svg class="spine" viewBox="0 0 240 2310" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="snakeGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#6e0820"/>
+          <stop offset="45%"  stop-color="#c2123a"/>
+          <stop offset="100%" stop-color="#ff5473"/>
+        </linearGradient>
+      </defs>
+      <path d="M 120 0 C 120 74 34 91 34 165 C 34 330 206 330 206 495 C 206 660 34 660 34 825 C 34 990 206 990 206 1155 C 206 1320 34 1320 34 1485 C 34 1650 206 1650 206 1815 C 206 1980 34 1980 34 2145 C 34 2228 120 2228 120 2310"/>
+    </svg>
+
+    <!-- 1 · left -->
+    <div class="snode left">
+      <span class="stub"></span><span class="dot"></span>
+      <figure class="cert">
+        <a class="shot" href="certs/tata-forage.jpg" target="_blank" rel="noopener">
+          <img src="certs/tata-forage.jpg" alt="Tata Data Visualisation virtual experience certificate" loading="lazy">
+        </a>
+        <figcaption class="body">
+          <h4>Data Visualisation: Empowering Business with Effective Insights</h4>
+          <p class="issuer">Tata via Forage · completion</p>
+          <span class="when">Aug 2025</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- 2 · right -->
+    <div class="snode right">
+      <span class="stub"></span><span class="dot"></span>
+      <figure class="cert">
+        <a class="shot" href="certs/aws-data-eng.jpg" target="_blank" rel="noopener">
+          <img src="certs/aws-data-eng.jpg" alt="AWS Data Engineering on AWS Foundations completion certificate" loading="lazy">
+        </a>
+        <figcaption class="body">
+          <h4>Data Engineering on AWS — Foundations</h4>
+          <p class="issuer">AWS Training &amp; Certification · completion</p>
+          <span class="when">Aug 2025</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- 3 · left -->
+    <div class="snode left">
+      <span class="stub"></span><span class="dot"></span>
+      <figure class="cert">
+        <a class="shot" href="certs/nptel-ml.jpg" target="_blank" rel="noopener">
+          <img src="certs/nptel-ml.jpg" alt="NPTEL Introduction to Machine Learning certificate" loading="lazy">
+        </a>
+        <figcaption class="body">
+          <h4>Introduction to Machine Learning</h4>
+          <p class="issuer">NPTEL · IIT Kharagpur · 8 weeks</p>
+          <span class="when">Jul – Sep 2025</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- 4 · right -->
+    <div class="snode right">
+      <span class="stub"></span><span class="dot"></span>
+      <figure class="cert">
+        <a class="shot" href="certs/icsie-2026.jpg" target="_blank" rel="noopener">
+          <img src="certs/icsie-2026.jpg" alt="ICSIE 2026 certificate of presentation" loading="lazy">
+        </a>
+        <figcaption class="body">
+          <h4>ICSIE 2026 — Certificate of Presentation</h4>
+          <p class="issuer">17th Intl. Conference on Science &amp; Innovative Engineering</p>
+          <span class="when">Apr 2026</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- 5 · left -->
+    <div class="snode left">
+      <span class="stub"></span><span class="dot"></span>
+      <figure class="cert">
+        <a class="shot" href="certs/nptel-nlp.jpg" target="_blank" rel="noopener">
+          <img src="certs/nptel-nlp.jpg" alt="NPTEL Natural Language Processing certificate" loading="lazy">
+        </a>
+        <figcaption class="body">
+          <h4>Natural Language Processing</h4>
+          <p class="issuer">NPTEL · IIT Kharagpur · 12 weeks</p>
+          <span class="when">Jan – Apr 2026</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- 6 · right -->
+    <div class="snode right">
+      <span class="stub"></span><span class="dot"></span>
+      <figure class="cert">
+        <a class="shot" href="certs/google-ai-essentials.jpg" target="_blank" rel="noopener">
+          <img src="certs/google-ai-essentials.jpg" alt="Google AI Essentials specialization certificate" loading="lazy">
+        </a>
+        <figcaption class="body">
+          <h4>Google AI Essentials</h4>
+          <p class="issuer">Google · Coursera · 5-course specialization</p>
+          <span class="when">Jul 2026</span>
+          <a class="verify" href="https://coursera.org/verify/specialization/UF9XJ17SWQID" target="_blank" rel="noopener">Verify</a>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- 7 · left -->
+    <div class="snode left">
+      <span class="stub"></span><span class="dot"></span>
+      <figure class="cert">
+        <a class="shot" href="certs/oracle-oci.jpg" target="_blank" rel="noopener">
+          <img src="certs/oracle-oci.jpg" alt="Oracle Cloud Infrastructure Certified Architect Associate certificate" loading="lazy">
+        </a>
+        <figcaption class="body">
+          <h4>OCI Certified Architect Associate</h4>
+          <p class="issuer">Oracle University · Oracle Certified</p>
+          <span class="when">Aug 2026</span>
+        </figcaption>
+      </figure>
+    </div>
+
   </div>
 </div></section>
 
